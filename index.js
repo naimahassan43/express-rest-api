@@ -96,6 +96,10 @@ app.delete("/api/products/:id", (req, res) => {
   return res.json(product);
 });
 //Delete all products
+app.delete("/api/products", (req, res) => {
+  products.splice(0);
+  return res.json(products);
+});
 
 // validation function
 function validation(body) {
