@@ -69,6 +69,12 @@ app.put("/api/products/:id", (req, res) => {
 });
 //Update a specific product(PATCH- some information edit)
 app.patch("/api/products/:id", (req, res) => {
+  const { error } = validationForPatch(req.body);
+  if (error) {
+    return res.status(400).json({
+      message: error.datails[0].message,
+    });
+  }
   const index = products.findIndex((prod) => prod.id === req.params.id);
   if (index === -1) {
     return res.status(404).json({ message: "Product not found" });
@@ -110,6 +116,16 @@ function validation(body) {
 
   return schema.validate(body);
 }
+// validation function for patch method
+function validationForPatch(body) {
+  const schema = Joi.object({
+    name: Joi.string().min(3).max(20),
+    price: Joi.number(),
+  });
+
+  return schema.validate(body);
+}
+
 app.listen(3000, () => {
   console.log("listening on port 3000");
 });
