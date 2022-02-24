@@ -7,11 +7,11 @@ app.get("/", (req, res) => {
 });
 
 const products = [
-  { id: 1, name: "Mango", price: 234 },
-  { id: 2, name: "Orange", price: 154 },
-  { id: 3, name: "Blackberry", price: 214 },
-  { id: 4, name: "Melon", price: 134 },
-  { id: 5, name: "Apple", price: 200 },
+  { id: "1", name: "Mango", price: 234 },
+  { id: "2", name: "Orange", price: 154 },
+  { id: "3", name: "Blackberry", price: 214 },
+  { id: "4", name: "Melon", price: 134 },
+  { id: "5", name: "Apple", price: 200 },
 ];
 //Show list of products
 app.get("/api/products", (req, res) => {
@@ -19,7 +19,14 @@ app.get("/api/products", (req, res) => {
 });
 
 //show a specific product
-
+app.get("/api/products/:id", (req, res) => {
+  const { id } = req.params;
+  const product = products.find((prod) => prod.id === id);
+  if (!product) {
+    return res.status(404).json({ error: "Product not found" });
+  }
+  return res.json(product);
+});
 //Insert a new product
 
 //Update a specific product(PUT)
